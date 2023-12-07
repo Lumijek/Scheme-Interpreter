@@ -331,7 +331,7 @@ def do_enumerate_form(expressions, env):
     enum_lis = []
     i = 0
     while expressions is not nil:
-        enum_lis.append((i, expressions.first))
+        enum_lis.append(scheme_list(i, expressions.first))
         expressions = expressions.rest
         i += 1
     return scheme_list(*enum_lis)
