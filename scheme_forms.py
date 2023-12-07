@@ -2,6 +2,7 @@ from scheme_eval_apply import *
 from scheme_utils import *
 from scheme_classes import *
 from scheme_builtins import *
+import operator as ops
 
 #################
 # Special Forms #
@@ -313,7 +314,63 @@ def do_mu_form(expressions, env):
     return MuProcedure(formals, expressions.rest)
     # END PROBLEM 11
 
+def do_enumerate_form(expressions, env):
+    """
+    Author: Aayush
+    Implements an enumerate procedure for the Scheme Interpreter
+    Examples: 
+    
+    scm> (enumerate '(3 4 5 6))
+    ((0 3) (1 4) (2 5) (3 6))
+    scm> (enumerate '())
+    ()
+    """
 
+    expressions = do_quote_form(expressions, env).rest.first
+
+    enum_lis = []
+    i = 0
+    while expressions is not nil:
+        enum_lis.append((i, expressions.first))
+        expressions = expressions.rest
+        i += 1
+    return scheme_list(*enum_lis)
+
+def do_merge_form(expressions, env):
+    """
+    Author: Aayush
+    Implements a merge procedure for the Scheme Interpreter
+    Examples:
+
+    scm> (merge < '(1 4 6) '(2 5 8))
+    (1 2 4 5 6 8)
+    scm> (merge > '(6 4 1) '(8 5 2))
+    (8 6 5 4 2 1)
+    scm> (merge < '(1) '(2 3 5))
+    (1 2 3 5)
+    """
+    operator = expressions.first
+    list1 = expressions.rest.first.rest.first
+    list2 = expressions.rest.rest.first.rest.first
+    op = ops.lt
+    if operator == ">":
+        op = ops.gt
+    merge_list = []
+    while list1 is not nil and list2 is not nil:
+        if(op(list1.first, list2.first)):
+            merge_list.append(list1.first)
+            list1 = list1.rest
+        else:
+            merge_list.append(list2.first)
+            list2 = list2.rest
+    while list1 is not nil:
+        merge_list.append(list1.first)
+        list1 = list1.rest
+
+    while list2 is not nil:
+        merge_list.append(list2.first)
+        list2 = list2.rest      
+    return scheme_list(*merge_list)
 
 SPECIAL_FORMS = {
     'and': do_and_form,
@@ -328,4 +385,6 @@ SPECIAL_FORMS = {
     'quasiquote': do_quasiquote_form,
     'unquote': do_unquote,
     'mu': do_mu_form,
+    'enumerate': do_enumerate_form,
+    'merge': do_merge_form,
 }
