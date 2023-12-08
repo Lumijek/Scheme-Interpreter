@@ -138,6 +138,3 @@ class MuProcedure(Procedure):
         return 'MuProcedure({0}, {1})'.format(
             repr(self.formals), repr(self.body))
 
-class EnumerateProdedure(Procedure):
-    def __init__(self, x):
-        pass
