@@ -61,13 +61,13 @@ class Frame:
         if len(formals) != len(vals):
             raise SchemeError('Incorrect number of arguments to function call')
         # BEGIN PROBLEM 8
-        # Ethan's comments
         # create a new frame with the current frame as the parent
         new_frame = Frame(self)
         while formals != nil:
-            # define the symbol and value in the new frame
+            # Define each formal parameter in the new frame with its corresponding value.
             new_frame.define(formals.first, vals.first)
-            # move on to the next symbol and value
+            # Move to the next pair of formal parameter and value.
+            # returns the list without its first element, iterates through both lists in parallel until all pairs are processed.
             formals, vals = formals.rest, vals.rest
         return new_frame
         # END PROBLEM 8
