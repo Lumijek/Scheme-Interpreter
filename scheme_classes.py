@@ -26,7 +26,7 @@ class Frame:
     def define(self, symbol, value):
         """Define Scheme SYMBOL to have VALUE."""
         # BEGIN PROBLEM 1
-        # Ethan's comments
+        # Sini's comments
         # add the symbol and value to the current frame
         # can overwrite existing bindings
         self.bindings[symbol] = value
@@ -36,6 +36,7 @@ class Frame:
         """Return the value bound to SYMBOL. Errors if SYMBOL is not found."""
         # BEGIN PROBLEM 1
         if symbol in self.bindings:
+            # Sini's comments
             # if the symbol is in the current frame, return the value
             return self.bindings[symbol]
         elif self.parent is not None:

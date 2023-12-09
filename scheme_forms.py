@@ -37,7 +37,7 @@ def do_define_form(expressions, env):
         # assigning a name to a value e.g. (define x (+ 1 2))
         validate_form(expressions, 2, 2) # Checks that expressions is a list of length exactly 2
         # BEGIN PROBLEM 4
-        # Ethan's comments:
+        # Sini's comments:
         # signature is the name of the variable
         symbol = signature
         # expressions.rest is a scheme list of length 1
@@ -51,7 +51,6 @@ def do_define_form(expressions, env):
     elif isinstance(signature, Pair) and scheme_symbolp(signature.first):
         # defining a named procedure e.g. (define (f x y) (+ x y))
         # BEGIN PROBLEM 10
-        "*** YOUR CODE HERE ***"
         # Ethan's comments:
         # signature.first is the name of the procedure
         # signature.rest is the list of parameters
@@ -143,7 +142,6 @@ def do_and_form(expressions, env):
     False
     """
     # BEGIN PROBLEM 12
-    "*** YOUR CODE HERE ***"
     # Ethan's comments
     # expressions is a list of expressions
     # expressions.first is the first expression
@@ -184,7 +182,6 @@ def do_or_form(expressions, env):
     6
     """
     # BEGIN PROBLEM 12
-    "*** YOUR CODE HERE ***"
     if expressions == nil:
         # no expressions evaluates to False
         return False
@@ -216,7 +213,6 @@ def do_cond_form(expressions, env):
             test = scheme_eval(clause.first, env)
         if is_scheme_true(test):
             # BEGIN PROBLEM 13
-            "*** YOUR CODE HERE ***"
             # Ethan's comments
             if clause.rest == nil:
                 # no expressions to evaluate
@@ -247,7 +243,6 @@ def make_let_frame(bindings, env):
         raise SchemeError('bad bindings list in let form')
     names = vals = nil
     # BEGIN PROBLEM 14
-    "*** YOUR CODE HERE ***"
     # Ethan's comments
     # bindings is a list of bindings
     while bindings is not nil:
@@ -303,7 +298,6 @@ def do_mu_form(expressions, env):
     formals = expressions.first
     validate_formals(formals)
     # BEGIN PROBLEM 11
-    "*** YOUR CODE HERE ***"
     # Ethan's comments
     # Build a MuProcedure object from the formals and the body
     # Example: (mu (x) (+ x 2))

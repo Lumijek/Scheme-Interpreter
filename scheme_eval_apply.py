@@ -33,7 +33,7 @@ def scheme_eval(expr, env, _=None): # Optional third argument is ignored
         return scheme_forms.SPECIAL_FORMS[first](rest, env)
     else:
         # BEGIN PROBLEM 3
-        # Ethan's comments
+        # Sini's comments
         # evaluate the first element of the list since operator
         # can also be an expression
         operator = scheme_eval(first, env)
@@ -51,7 +51,7 @@ def scheme_apply(procedure, args, env):
        assert False, "Not a Frame: {}".format(env)
     if isinstance(procedure, BuiltinProcedure):
         # BEGIN PROBLEM 2
-        # Ethan's comments
+        # Sini's comments
         # convert scheme list args to python list
         # args is a scheme list
         python_args = []
@@ -64,6 +64,7 @@ def scheme_apply(procedure, args, env):
         try:
             # BEGIN PROBLEM 2
             "*** YOUR CODE HERE ***"
+            # Sini's comments
             # check if procedure needs env
             if procedure.need_env:
                 python_args.append(env)
@@ -84,7 +85,6 @@ def scheme_apply(procedure, args, env):
         # END PROBLEM 9
     elif isinstance(procedure, MuProcedure):
         # BEGIN PROBLEM 11
-        "*** YOUR CODE HERE ***"
         # Ethan's comments
         # make a new frame from the mu procedure from where it's called
         # not where it's created => use env
