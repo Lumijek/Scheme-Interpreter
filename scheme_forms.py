@@ -104,12 +104,11 @@ def do_lambda_form(expressions, env):
     formals = expressions.first
     validate_formals(formals)
     # BEGIN PROBLEM 7
-    # Ethan's comments
-    # formals is a list of parameters
-    # expressions.rest is the body of the procedure
-    # Example: (lambda (x) (+ x 2))
-    # formals is (x)
-    # expressions.rest is ((+ x 2))
+    # Jaanavi Thanamala
+    # formals' is the list of formal parameters for the lambda function.
+    # 'expressions.rest' represents the body of the lambda function.
+    # For example, in (lambda (x) (+ x 2)), 'formals' is (x), and the 'body' is ((+ x 2)).
+
     body = expressions.rest
     return LambdaProcedure(formals, body, env)
     # END PROBLEM 7
