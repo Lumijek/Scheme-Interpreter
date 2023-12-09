@@ -110,15 +110,19 @@ def eval_all(expressions, env):
     2
     """
     # BEGIN PROBLEM 6
-    # Ethan's comments
-    # save the last result in last_val
+    # Jaanavi Thanamala
+    # Initialize a variable to keep track of the last evaluated value.
+    # This will be updated as each expression is evaluated and will eventually hold the final result.
     last_val = None
     while expressions != nil:
-        # for begin, we need to evaluate all the expressions
+        # Evaluate each expression in the list one by one.
+        # `scheme_eval` is called to evaluate the current expression in the context of the provided environment.
         last_val = scheme_eval(expressions.first, env)
-        # move on to the next expression
+        # Move to the next expression in the list.
+        # The `expressions` variable is updated to point to the rest of the expressions (excluding the one just evaluated).
         expressions = expressions.rest
-    # return the last result
+    # After all expressions are evaluated, return the last evaluated value.
+    # This is the result of the last expression in the list.
     return last_val
     # END PROBLEM 6
 
