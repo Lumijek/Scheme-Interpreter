@@ -147,7 +147,7 @@ def do_and_form(expressions, env):
     # expressions.first is the first expression
     # expressions.rest is the rest of the expressions
     # expressions.rest.first is the second expression
-    # expressions.rest.rest is the rest of the expressions
+    # expressions.rest.rest are the expressions after the second
     # Example: (and (print 1) (print 2) (print 3) (print 4) 3 #f)
     # expressions.first is (print 1)
     # expressions.rest is ((print 2) (print 3) (print 4) 3 #f)
