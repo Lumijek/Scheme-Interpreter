@@ -213,12 +213,9 @@ def do_cond_form(expressions, env):
             test = scheme_eval(clause.first, env)
         if is_scheme_true(test):
             # BEGIN PROBLEM 13
-            # Ethan's comments
+            # Aayush: If we have nothing left return otherwise evealuate the expression
             if clause.rest == nil:
-                # no expressions to evaluate
-                # return the test
                 return test
-            # evaluate the expressions in the clause
             return eval_all(clause.rest, env)
             # END PROBLEM 13
         expressions = expressions.rest
@@ -244,18 +241,13 @@ def make_let_frame(bindings, env):
     names = vals = nil
     # BEGIN PROBLEM 14
     # Ethan's comments
-    # bindings is a list of bindings
+    # Aayush: Validate that bindings list has length 2 and then add to list of all names and values;
+    # Then make sure that names are symbols
     while bindings is not nil:
-        # each binding is a list of length 2
         clause = bindings.first
-        # the first element is the name of the variable
-        # the second element is the value of the variable
-        # check that the clause is a list of length 2
         validate_form(clause, 2, 2)
-        # add the name and value to the list of names and values
         names, vals = Pair(clause.first, names), Pair(scheme_eval(clause.rest.first, env), vals)
         bindings = bindings.rest
-        # check that the names are all symbols
         validate_formals(names)
     # END PROBLEM 14
     return env.make_child_frame(names, vals)
