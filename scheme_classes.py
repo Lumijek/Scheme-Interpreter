@@ -26,7 +26,7 @@ class Frame:
     def define(self, symbol, value):
         """Define Scheme SYMBOL to have VALUE."""
         # BEGIN PROBLEM 1
-        # Ethan's comments
+        # Sini's comments
         # add the symbol and value to the current frame
         # can overwrite existing bindings
         self.bindings[symbol] = value
@@ -36,6 +36,7 @@ class Frame:
         """Return the value bound to SYMBOL. Errors if SYMBOL is not found."""
         # BEGIN PROBLEM 1
         if symbol in self.bindings:
+            # Sini's comments
             # if the symbol is in the current frame, return the value
             return self.bindings[symbol]
         elif self.parent is not None:
@@ -61,13 +62,14 @@ class Frame:
         if len(formals) != len(vals):
             raise SchemeError('Incorrect number of arguments to function call')
         # BEGIN PROBLEM 8
-        # Ethan's comments
+        # Jaanavi Thanamala
         # create a new frame with the current frame as the parent
         new_frame = Frame(self)
         while formals != nil:
-            # define the symbol and value in the new frame
+            # Define each formal parameter in the new frame with its corresponding value.
             new_frame.define(formals.first, vals.first)
-            # move on to the next symbol and value
+            # Move to the next pair of formal parameter and value.
+            # returns the list without its first element, iterates through both lists in parallel until all pairs are processed.
             formals, vals = formals.rest, vals.rest
         return new_frame
         # END PROBLEM 8
@@ -137,3 +139,4 @@ class MuProcedure(Procedure):
     def __repr__(self):
         return 'MuProcedure({0}, {1})'.format(
             repr(self.formals), repr(self.body))
+

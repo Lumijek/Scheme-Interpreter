@@ -33,7 +33,7 @@ def scheme_eval(expr, env, _=None): # Optional third argument is ignored
         return scheme_forms.SPECIAL_FORMS[first](rest, env)
     else:
         # BEGIN PROBLEM 3
-        # Ethan's comments
+        # Sini's comments
         # evaluate the first element of the list since operator
         # can also be an expression
         operator = scheme_eval(first, env)
@@ -51,7 +51,7 @@ def scheme_apply(procedure, args, env):
        assert False, "Not a Frame: {}".format(env)
     if isinstance(procedure, BuiltinProcedure):
         # BEGIN PROBLEM 2
-        # Ethan's comments
+        # Sini's comments
         # convert scheme list args to python list
         # args is a scheme list
         python_args = []
@@ -64,6 +64,7 @@ def scheme_apply(procedure, args, env):
         try:
             # BEGIN PROBLEM 2
             "*** YOUR CODE HERE ***"
+            # Sini's comments
             # check if procedure needs env
             if procedure.need_env:
                 python_args.append(env)
@@ -84,7 +85,6 @@ def scheme_apply(procedure, args, env):
         # END PROBLEM 9
     elif isinstance(procedure, MuProcedure):
         # BEGIN PROBLEM 11
-        "*** YOUR CODE HERE ***"
         # Ethan's comments
         # make a new frame from the mu procedure from where it's called
         # not where it's created => use env
@@ -110,15 +110,19 @@ def eval_all(expressions, env):
     2
     """
     # BEGIN PROBLEM 6
-    # Ethan's comments
-    # save the last result in last_val
+    # Jaanavi Thanamala
+    # Initialize a variable to keep track of the last evaluated value.
+    # This will be updated as each expression is evaluated and will eventually hold the final result.
     last_val = None
     while expressions != nil:
-        # for begin, we need to evaluate all the expressions
+        # Evaluate each expression in the list one by one.
+        # `scheme_eval` is called to evaluate the current expression in the context of the provided environment.
         last_val = scheme_eval(expressions.first, env)
-        # move on to the next expression
+        # Move to the next expression in the list.
+        # The `expressions` variable is updated to point to the rest of the expressions (excluding the one just evaluated).
         expressions = expressions.rest
-    # return the last result
+    # After all expressions are evaluated, return the last evaluated value.
+    # This is the result of the last expression in the list.
     return last_val
     # END PROBLEM 6
 
