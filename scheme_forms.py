@@ -2,6 +2,7 @@ from scheme_eval_apply import *
 from scheme_utils import *
 from scheme_classes import *
 from scheme_builtins import *
+import operator as ops
 
 #################
 # Special Forms #
@@ -36,7 +37,7 @@ def do_define_form(expressions, env):
         # assigning a name to a value e.g. (define x (+ 1 2))
         validate_form(expressions, 2, 2) # Checks that expressions is a list of length exactly 2
         # BEGIN PROBLEM 4
-        # Ethan's comments:
+        # Sini's comments:
         # signature is the name of the variable
         symbol = signature
         # expressions.rest is a scheme list of length 1
@@ -50,7 +51,6 @@ def do_define_form(expressions, env):
     elif isinstance(signature, Pair) and scheme_symbolp(signature.first):
         # defining a named procedure e.g. (define (f x y) (+ x y))
         # BEGIN PROBLEM 10
-        "*** YOUR CODE HERE ***"
         # Ethan's comments:
         # signature.first is the name of the procedure
         # signature.rest is the list of parameters
@@ -76,8 +76,7 @@ def do_quote_form(expressions, env):
     """
     validate_form(expressions, 1, 1)
     # BEGIN PROBLEM 5
-    "*** YOUR CODE HERE ***"
-    # return expressions.first
+    # Jaanavi Thanamala
     return expressions.first
     # END PROBLEM 5
 
@@ -104,12 +103,11 @@ def do_lambda_form(expressions, env):
     formals = expressions.first
     validate_formals(formals)
     # BEGIN PROBLEM 7
-    # Ethan's comments
-    # formals is a list of parameters
-    # expressions.rest is the body of the procedure
-    # Example: (lambda (x) (+ x 2))
-    # formals is (x)
-    # expressions.rest is ((+ x 2))
+    # Jaanavi Thanamala
+    # formals' is the list of formal parameters for the lambda function.
+    # 'expressions.rest' represents the body of the lambda function.
+    # For example, in (lambda (x) (+ x 2)), 'formals' is (x), and the 'body' is ((+ x 2)).
+
     body = expressions.rest
     return LambdaProcedure(formals, body, env)
     # END PROBLEM 7
@@ -144,7 +142,6 @@ def do_and_form(expressions, env):
     False
     """
     # BEGIN PROBLEM 12
-    "*** YOUR CODE HERE ***"
     # Ethan's comments
     # expressions is a list of expressions
     # expressions.first is the first expression
@@ -185,7 +182,6 @@ def do_or_form(expressions, env):
     6
     """
     # BEGIN PROBLEM 12
-    "*** YOUR CODE HERE ***"
     if expressions == nil:
         # no expressions evaluates to False
         return False
@@ -217,13 +213,9 @@ def do_cond_form(expressions, env):
             test = scheme_eval(clause.first, env)
         if is_scheme_true(test):
             # BEGIN PROBLEM 13
-            "*** YOUR CODE HERE ***"
-            # Ethan's comments
+            # Aayush: If we have nothing left return otherwise evealuate the expression
             if clause.rest == nil:
-                # no expressions to evaluate
-                # return the test
                 return test
-            # evaluate the expressions in the clause
             return eval_all(clause.rest, env)
             # END PROBLEM 13
         expressions = expressions.rest
@@ -248,20 +240,14 @@ def make_let_frame(bindings, env):
         raise SchemeError('bad bindings list in let form')
     names = vals = nil
     # BEGIN PROBLEM 14
-    "*** YOUR CODE HERE ***"
     # Ethan's comments
-    # bindings is a list of bindings
+    # Aayush: Validate that bindings list has length 2 and then add to list of all names and values;
+    # Then make sure that names are symbols
     while bindings is not nil:
-        # each binding is a list of length 2
         clause = bindings.first
-        # the first element is the name of the variable
-        # the second element is the value of the variable
-        # check that the clause is a list of length 2
         validate_form(clause, 2, 2)
-        # add the name and value to the list of names and values
         names, vals = Pair(clause.first, names), Pair(scheme_eval(clause.rest.first, env), vals)
         bindings = bindings.rest
-        # check that the names are all symbols
         validate_formals(names)
     # END PROBLEM 14
     return env.make_child_frame(names, vals)
@@ -304,7 +290,6 @@ def do_mu_form(expressions, env):
     formals = expressions.first
     validate_formals(formals)
     # BEGIN PROBLEM 11
-    "*** YOUR CODE HERE ***"
     # Ethan's comments
     # Build a MuProcedure object from the formals and the body
     # Example: (mu (x) (+ x 2))
@@ -313,7 +298,63 @@ def do_mu_form(expressions, env):
     return MuProcedure(formals, expressions.rest)
     # END PROBLEM 11
 
+def do_enumerate_form(expressions, env):
+    """
+    Author: Aayush
+    Implements an enumerate procedure for the Scheme Interpreter
+    Examples: 
+    
+    scm> (enumerate '(3 4 5 6))
+    ((0 3) (1 4) (2 5) (3 6))
+    scm> (enumerate '())
+    ()
+    """
 
+    expressions = do_quote_form(expressions, env).rest.first
+
+    enum_lis = []
+    i = 0
+    while expressions is not nil:
+        enum_lis.append(scheme_list(i, expressions.first))
+        expressions = expressions.rest
+        i += 1
+    return scheme_list(*enum_lis)
+
+def do_merge_form(expressions, env):
+    """
+    Author: Aayush
+    Implements a merge procedure for the Scheme Interpreter
+    Examples:
+
+    scm> (merge < '(1 4 6) '(2 5 8))
+    (1 2 4 5 6 8)
+    scm> (merge > '(6 4 1) '(8 5 2))
+    (8 6 5 4 2 1)
+    scm> (merge < '(1) '(2 3 5))
+    (1 2 3 5)
+    """
+    operator = expressions.first
+    list1 = expressions.rest.first.rest.first
+    list2 = expressions.rest.rest.first.rest.first
+    op = ops.lt
+    if operator == ">":
+        op = ops.gt
+    merge_list = []
+    while list1 is not nil and list2 is not nil:
+        if(op(list1.first, list2.first)):
+            merge_list.append(list1.first)
+            list1 = list1.rest
+        else:
+            merge_list.append(list2.first)
+            list2 = list2.rest
+    while list1 is not nil:
+        merge_list.append(list1.first)
+        list1 = list1.rest
+
+    while list2 is not nil:
+        merge_list.append(list2.first)
+        list2 = list2.rest      
+    return scheme_list(*merge_list)
 
 SPECIAL_FORMS = {
     'and': do_and_form,
@@ -328,4 +369,6 @@ SPECIAL_FORMS = {
     'quasiquote': do_quasiquote_form,
     'unquote': do_unquote,
     'mu': do_mu_form,
+    'enumerate': do_enumerate_form,
+    'merge': do_merge_form,
 }
