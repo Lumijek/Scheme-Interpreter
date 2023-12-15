@@ -50,47 +50,22 @@ def scheme_apply(procedure, args, env):
     if not isinstance(env, Frame):
        assert False, "Not a Frame: {}".format(env)
     if isinstance(procedure, BuiltinProcedure):
-        # BEGIN PROBLEM 2
-        # Sini's comments
-        # convert scheme list args to python list
-        # args is a scheme list
         python_args = []
         while args != nil:
-            # add the first element of args to python_args
             python_args.append(args.first)
-            # move to the next element in args
             args = args.rest
-        # END PROBLEM 2
         try:
-            # BEGIN PROBLEM 2
-            "*** YOUR CODE HERE ***"
-            # Sini's comments
-            # check if procedure needs env
             if procedure.need_env:
                 python_args.append(env)
-            # apply procedure on python_args
-            # which is a python list
             return procedure.py_func(*python_args)
-            # END PROBLEM 2
         except TypeError as err:
             raise SchemeError('incorrect number of arguments: {0}'.format(procedure))
     elif isinstance(procedure, LambdaProcedure):
-        # BEGIN PROBLEM 9
-        # Ethan's comments
-        # Need to make a new frame from the lambda procedure
-        # where it's created not where it's called
         new_frame = procedure.env.make_child_frame(procedure.formals, args)
-        # evaluate the body of the procedure in the new frame
         return eval_all(procedure.body, new_frame)
-        # END PROBLEM 9
     elif isinstance(procedure, MuProcedure):
-        # BEGIN PROBLEM 11
-        # Ethan's comments
-        # make a new frame from the mu procedure from where it's called
-        # not where it's created => use env
         mu_env = env.make_child_frame(procedure.formals, args)
         return eval_all(procedure.body, mu_env)
-        # END PROBLEM 11
     else:
         assert False, "Unexpected procedure: {}".format(procedure)
 
